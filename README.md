@@ -11,7 +11,7 @@ generated using Tableau. A company called Beans&Pods(not a real company) needs h
 4) which product is bought the most?
 5) should we grow our online or store sales?
 
-All of the questions are answered in the comments of the .rmd file and in the prepared presentation. But I will give you a sneak peak to the answer of #4
+All of the questions are answered in the comments of the .rmd file and in the prepared [presentation](https://docs.google.com/presentation/d/e/2PACX-1vQvjlmXK9Cz2pSI8LCnxuOg90vkXT9fqPkMYutUnUFa3UQ0q7yWAtCxzGYMBz89f8Qo6LjCnHflYleB/pub?start=false&loop=false&delayms=3000). But I will give you a sneak peak to the answer of #4
 
 
 ## Which product is bought the most?
