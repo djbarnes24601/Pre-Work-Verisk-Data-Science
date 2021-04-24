@@ -1,0 +1,91 @@
+---
+title: "Beans and Pods"
+author: "Deckard"
+date: "4/20/2021"
+output: html_document
+---
+
+
+```{r}
+#Loading Libraries
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(readxl)
+library(ggplot2)
+library(ggrepel)
+library(plotly)
+
+```
+
+Questions
+where is beans and pods making the most money?
+Five simple questions
+1) which region is most popular?
+2) is online or store more popular?
+3) where are the most profitable channels?
+4) which product is bought the most?
+5) should we grow our online or store sales?
+
+
+## Import Data
+
+
+```{r}
+  beans_pods <- read_excel("DS Intern - Beans Data Set.xlsx")
+  head(beans_pods)
+  tail(beans_pods)
+  glimpse(beans_pods)
+
+```
+## Filter out rows with NA
+```{r}
+  filteredBeans_Pods <- filter(beans_pods, !is.na(Channel))
+  nrow(beans_pods)
+  nrow(filteredBeans_Pods)
+
+```
+Successfully filtered out NAs!
+
+```{r}
+str(filteredBeans_Pods)
+
+```
+## Add a variable calculating the sum of all beans and pods sold
+```{r}
+Beans_Pods_transformed <- filteredBeans_Pods %>% mutate(Total = Robusta + Arabica + Espresso + Lungo + Latte + Cappuccino) %>% mutate(id = row_number(), .before = Channel) # also adding an id column here
+
+```
+
+## Are the majority of customers coming from Online or Store?
+```{r}
+ggplot(filteredBeans_Pods) + 
+  geom_bar(aes(x = Channel, fill = Channel)) + ylab("Transactions") + coord_flip() + theme_minimal()
+
+```
+## Which Region is most popular?
+```{r}
+ggplot(filteredBeans_Pods) + 
+  geom_bar(aes(x = Region, fill = Region)) + ylab("Transactions") + coord_flip() + theme_minimal()
+
+```
+## Who are the most valuable customers?
+```{r}
+top_ten_channels <- Beans_Pods_transformed %>% top_n(10, Total)
+#here are the top 10 most lucrative sales Beans & Pods has made in this dataset.
+ggplot(top_ten_channels, aes(x = Region, y = Total)) +
+  geom_point() +
+  geom_text(aes(x = Region, label = id), size = 4, hjust = 2)  + ylab("Total Beans&Pods Sold") + theme_minimal()
+
+#Beans&Pods made great sales with these channels. The company should reach out them with promotions and/or feedback. 
+```
+## Should we grow our online or store sales?
+```{r}
+scatter <- Beans_Pods_transformed %>%
+  ggplot(aes(x = id, y = Total, fill = Channel)) +
+  geom_point(alpha = 0.3) + theme_minimal()
+
+ggplotly(scatter)
+
+#From this plot it is easy to spot that even though there are more store sales overall. Customers who shop online purchase more beans&pods with their transactions. To maximize profit the company should look into expanding online sales.   
+```
